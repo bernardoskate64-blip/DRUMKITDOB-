@@ -1158,33 +1158,40 @@ button,a,.clickable,[data-section],.di,.file-row,.start-menu li{
 
 /* ── TELEFONES PEQUENOS (< 480px) ── */
 @media (max-width:480px){
-  /* pastas: só ícone, sem texto */
-  .float-item.f1{top:4%;left:4%;--tz:-30px;}
-  .float-item.f2{top:4%;right:4%;--tz:-30px;}
-  .float-item.f3{top:auto;bottom:18%;left:4%;--tz:-20px;}
-  .float-item.f4{top:auto;bottom:18%;right:4%;--tz:-20px;}
-  .float-item .folder-3d{--w:72px;--h:72px;}
+
+  /* ── STICKER: centro absoluto da tela ── */
+  .sticker-stage{
+    width:56vw;
+    top:50%;
+    transform:translate(-50%,-50%);
+  }
+
+  /* ── PASTAS: quatro cantos equilibrados ── */
+  .float-item.f1{top:7%;left:5%;--tz:-30px;}
+  .float-item.f2{top:7%;right:5%;--tz:-30px;}
+  .float-item.f3{top:auto;bottom:15%;left:5%;--tz:-20px;}
+  .float-item.f4{top:auto;bottom:15%;right:5%;--tz:-20px;}
+
+  .float-item .folder-3d{--w:74px;--h:74px;}
+
   .folder-3d .label{
-    font-size:5px;
-    line-height:1.4;
+    font-size:5.5px;
+    line-height:1.5;
     padding:0 3px;
     overflow:hidden;
     display:block;
-    top:14px;
+    top:12px;
   }
-  .folder-3d .label small{font-size:9px;margin-top:4px;}
+  .folder-3d .label small{font-size:9px;margin-top:3px;}
   .folder-3d .icon-row{display:none;}
 
-  /* sticker bem centralizado e compacto */
-  .sticker-stage{width:62vw;top:33%;}
-
-  /* floppy menor */
-  .pack-feature{bottom:56px;gap:4px;}
+  /* ── FLOPPY: centralizado e compacto ── */
+  .pack-feature{bottom:58px;gap:4px;}
   .floppy-body{width:68px;height:68px;}
   .floppy-body .lbl-text b{font-size:8px;}
   .pack-sub{font-size:11px;}
 
-  /* hud mínimo */
+  /* ── HUD: minimal ── */
   .hud-tag.hud-tl{display:none;}
 }
 
