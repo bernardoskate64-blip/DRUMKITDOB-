@@ -1097,6 +1097,180 @@ button,a,.clickable,[data-section],.di,.file-row,.start-menu li{
 .cs-bl{bottom:48px;left:8px;border-right:none;border-top:none;}
 .cs-br{bottom:48px;right:8px;border-left:none;border-top:none;}
 
+/* =====================================================================
+   PREMIUM ENHANCEMENTS — microanimações, glow, motion, Winamp, glitch
+   ===================================================================== */
+
+/* ── Folder hover: XP glow azul ── */
+.folder-3d:hover{
+  filter:
+    drop-shadow(0 0 16px rgba(0,240,255,.65))
+    drop-shadow(0 30px 30px rgba(0,0,0,.55));
+}
+.float-item:hover .folder-3d .label{
+  color:#00f0ff;
+  text-shadow:0 0 8px rgba(0,240,255,.7);
+  transition:color .2s,text-shadow .2s;
+}
+
+/* ── Janela aberta: glow pulsante ── */
+.win.open{
+  box-shadow:
+    inset 0 0 0 1px #fff,
+    4px 4px 0 rgba(0,0,0,.45),
+    0 14px 36px rgba(0,0,0,.45),
+    0 0 50px rgba(0,240,255,.18);
+  animation:winOpen .35s cubic-bezier(.2,1.2,.4,1.1) forwards, winGlow 3s ease-in-out 0.4s infinite;
+}
+@keyframes winGlow{
+  0%,100%{box-shadow:inset 0 0 0 1px #fff,4px 4px 0 rgba(0,0,0,.45),0 14px 36px rgba(0,0,0,.45),0 0 30px rgba(0,240,255,.12);}
+  50%{box-shadow:inset 0 0 0 1px #fff,4px 4px 0 rgba(0,0,0,.45),0 14px 36px rgba(0,0,0,.45),0 0 55px rgba(0,240,255,.32);}
+}
+
+/* ── Title bar: shimmer passante ── */
+.win .title{position:relative;overflow:hidden;}
+.win .title::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.12) 50%,transparent 100%);
+  animation:titleShimmer 6s ease-in-out infinite;
+}
+@keyframes titleShimmer{0%{transform:translateX(-120%)}55%{transform:translateX(120%)}100%{transform:translateX(120%)}}
+
+/* ── Start button: pulse verde ── */
+.start-btn{animation:startPulse 3.5s ease-in-out infinite;}
+@keyframes startPulse{
+  0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.5);}
+  50%{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 20px rgba(91,185,88,.55);}
+}
+
+/* ── Clock: pulso suave ── */
+#clock{animation:clockPulse 2s ease-in-out infinite;}
+@keyframes clockPulse{0%,100%{opacity:1;text-shadow:none;}50%{opacity:.75;text-shadow:0 0 6px rgba(255,255,255,.5);}}
+
+/* ── Corner spikes: respiração ciano ── */
+.corner-spike{animation:spikePulse 5s ease-in-out infinite;}
+@keyframes spikePulse{
+  0%,100%{opacity:.35;border-color:var(--cyan);}
+  50%{opacity:.7;border-color:#fff;box-shadow:0 0 10px rgba(0,240,255,.45);}
+}
+
+/* ── File row: hover premium ── */
+.file-row{
+  border-left:2px solid transparent;
+  transition:background .15s,border-color .15s;
+}
+.file-row:hover{
+  background:linear-gradient(90deg,rgba(58,111,187,.14),rgba(0,240,255,.05));
+  border-left:2px solid var(--xp-blue);
+}
+.file-row:hover .play-btn{box-shadow:0 0 10px rgba(0,240,255,.35),inset 0 1px 0 #fff;}
+
+/* ── Download button: pulse vermelho ── */
+.btn-download{animation:dlPulse 2.8s ease-in-out infinite;}
+@keyframes dlPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(217,37,37,.3),inset 0 1px 0 rgba(255,255,255,.25);}
+  50%{box-shadow:0 0 22px 5px rgba(217,37,37,.22),inset 0 1px 0 rgba(255,255,255,.25);}
+}
+
+/* ── Floppy hover glow extra ── */
+.pack-feature:hover .floppy-3d{
+  filter:
+    drop-shadow(0 0 24px rgba(0,240,255,.75))
+    drop-shadow(0 0 44px rgba(217,37,37,.3))
+    drop-shadow(0 14px 18px rgba(0,0,0,.55));
+}
+
+/* ── Scanline sweep: linha passando ── */
+.scanline-sweep{
+  position:fixed;left:0;right:0;height:2px;z-index:999;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(0,240,255,.1) 30%,rgba(0,240,255,.22) 50%,rgba(0,240,255,.1) 70%,transparent);
+  animation:scanSweep 9s linear infinite;
+  mix-blend-mode:screen;
+}
+@keyframes scanSweep{0%{top:-2px}100%{top:calc(100vh + 2px)}}
+
+/* ── Ambient glow atrás do sticker ── */
+.sticker-glow{
+  position:absolute;left:50%;top:34%;
+  transform:translate(-50%,-50%);
+  width:65vw;height:65vw;
+  max-width:520px;max-height:520px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(0,240,255,.07) 0%,rgba(31,77,217,.05) 40%,transparent 70%);
+  animation:ambientPulse 5.5s ease-in-out infinite;
+  pointer-events:none;z-index:2;
+}
+@keyframes ambientPulse{
+  0%,100%{opacity:1;transform:translate(-50%,-50%) scale(1);}
+  50%{opacity:.55;transform:translate(-50%,-50%) scale(1.12);}
+}
+
+/* ── Winamp EQ bars ── */
+.winamp-eq{
+  position:absolute;right:16px;bottom:52px;
+  display:flex;align-items:flex-end;gap:2px;
+  z-index:6;pointer-events:none;height:44px;
+  opacity:.7;
+}
+.winamp-eq .eq-bar{
+  width:3px;border-radius:1px 1px 0 0;
+  background:linear-gradient(180deg,#00f0ff 0%,#1f4dd9 55%,#d92525 100%);
+  box-shadow:0 0 5px rgba(0,240,255,.45);
+  animation:eqBounce .5s ease-in-out infinite alternate;
+  transform-origin:bottom;
+}
+@keyframes eqBounce{to{transform:scaleY(.15);}}
+.winamp-eq .eq-bar:nth-child(1){height:28px;animation-duration:.45s;animation-delay:0s;}
+.winamp-eq .eq-bar:nth-child(2){height:38px;animation-duration:.38s;animation-delay:.07s;}
+.winamp-eq .eq-bar:nth-child(3){height:44px;animation-duration:.52s;animation-delay:.12s;}
+.winamp-eq .eq-bar:nth-child(4){height:32px;animation-duration:.41s;animation-delay:.05s;}
+.winamp-eq .eq-bar:nth-child(5){height:40px;animation-duration:.47s;animation-delay:.09s;}
+.winamp-eq .eq-bar:nth-child(6){height:24px;animation-duration:.35s;animation-delay:.14s;}
+.winamp-eq .eq-bar:nth-child(7){height:36px;animation-duration:.55s;animation-delay:.03s;}
+.winamp-eq .eq-bar:nth-child(8){height:20px;animation-duration:.43s;animation-delay:.11s;}
+
+/* Winamp label */
+.winamp-label{
+  position:absolute;right:16px;bottom:100px;
+  font-family:'Press Start 2P',monospace;font-size:6px;
+  color:rgba(0,240,255,.45);letter-spacing:2px;
+  pointer-events:none;z-index:6;
+  writing-mode:initial;
+}
+
+/* ── Glitch momentâneo no desktop ── */
+@keyframes glitchFlash{
+  0%,100%{filter:none;transform:none;}
+  10%{filter:hue-rotate(90deg) saturate(2);transform:skewX(-1deg);}
+  20%{filter:none;transform:none;}
+  30%{filter:brightness(1.4);transform:translate(2px,0);}
+  40%{filter:none;transform:none;}
+}
+.glitching{animation:glitchFlash .3s steps(2) forwards;}
+
+/* ── Task items glow ── */
+.task-item{
+  transition:box-shadow .2s;
+}
+.task-item:hover{
+  box-shadow:0 0 10px rgba(0,240,255,.3);
+}
+
+/* ── HUD TL: data stream sutil ── */
+@keyframes dataFlicker{
+  0%,92%,100%{opacity:1;}
+  93%{opacity:.4;}
+  95%{opacity:1;}
+  97%{opacity:.6;}
+}
+.hud-tl{animation:dataFlicker 4s ease-in-out infinite;}
+
+/* mobile: hide eq */
+@media(max-width:768px){
+  .winamp-eq,.winamp-label{display:none;}
+  .sticker-glow{width:80vw;height:80vw;}
+}
+
 /* ----------------------- RESPONSIVE ----------------------- */
 @media (max-width:768px){
   /* ── PASTAS ── */
@@ -1565,6 +1739,14 @@ button,a,.clickable,[data-section],.di,.file-row,.start-menu li{
 <div class="crt"></div>
 <div class="crt-glow"></div>
 <div class="noise"></div>
+<div class="scanline-sweep"></div>
+<div class="sticker-glow"></div>
+<div class="winamp-eq">
+  <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+  <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+  <div class="eq-bar"></div><div class="eq-bar"></div>
+</div>
+<div class="winamp-label">WINAMP EQ</div>
 
 <!-- ====================================================================== -->
 <!-- ============================  RUNTIME JS  ============================ -->
@@ -2152,6 +2334,31 @@ function drawParts(){
   requestAnimationFrame(drawParts);
 }
 requestAnimationFrame(drawParts);
+
+/* ---------- WINAMP EQ RANDOMIZER ---------- */
+const eqBars = document.querySelectorAll('.eq-bar');
+function randomizeEQ(){
+  eqBars.forEach(bar=>{
+    const h = 14 + Math.random()*30;
+    const dur = (.3 + Math.random()*.5).toFixed(2);
+    bar.style.height = h + 'px';
+    bar.style.animationDuration = dur + 's';
+  });
+}
+setInterval(randomizeEQ, 600);
+
+/* ---------- RANDOM GLITCH EVENT ---------- */
+function triggerGlitch(){
+  const desktop = document.getElementById('desktop');
+  desktop.classList.add('glitching');
+  setTimeout(()=>desktop.classList.remove('glitching'), 320);
+}
+setInterval(()=>{
+  if(Math.random() < 0.3) triggerGlitch();
+}, 7000);
+
+/* ---------- ENHANCED MOUSE TRAIL (more colors) ---------- */
+const TRAIL_COLORS = ['cyan','cyan','red','gold','cyan','white'];
 
 /* ---------- KEYBOARD ---------- */
 document.addEventListener('keydown', e=>{
