@@ -1099,31 +1099,85 @@ button,a,.clickable,[data-section],.di,.file-row,.start-menu li{
 
 /* ----------------------- RESPONSIVE ----------------------- */
 @media (max-width:768px){
-  .float-item.f1{top:7%;left:2%;--tz:-50px;}
-  .float-item.f1 .folder-3d{--w:90px;--h:70px;}
-  .float-item.f2{top:7%;right:2%;--tz:-40px;}
-  .float-item.f2 .folder-3d{--w:90px;--h:70px;}
-  .float-item.f3{top:auto;bottom:30%;left:2%;--tz:-30px;}
-  .float-item.f3 .folder-3d{--w:90px;--h:70px;}
-  .float-item.f4{top:auto;bottom:30%;right:2%;--tz:-30px;}
-  .float-item.f4 .folder-3d{--w:90px;--h:70px;}
-  .folder-3d .label{font-size:7px;}
-  .folder-3d .label small{font-size:11px;}
-  .sticker-stage{width:90vw;top:32%;}
-  .pack-feature{bottom:54px;gap:6px;}
-  .pack-feature .featured-label{font-size:8px;letter-spacing:2px;}
-  .floppy-body{width:82px;height:82px;}
+  /* ── PASTAS ── */
+  .float-item.f1{top:5%;left:1%;--tz:-50px;}
+  .float-item.f1 .folder-3d{--w:82px;--h:64px;}
+  .float-item.f2{top:5%;right:1%;--tz:-40px;}
+  .float-item.f2 .folder-3d{--w:82px;--h:64px;}
+  .float-item.f3{top:auto;bottom:22%;left:1%;--tz:-30px;}
+  .float-item.f3 .folder-3d{--w:82px;--h:64px;}
+  .float-item.f4{top:auto;bottom:22%;right:1%;--tz:-30px;}
+  .float-item.f4 .folder-3d{--w:82px;--h:64px;}
+  .folder-3d .label{
+    font-size:6px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    padding:0 4px;
+  }
+  .folder-3d .label small{font-size:10px;}
+
+  /* ── STICKER ── menor para não encobrir pastas */
+  .sticker-stage{width:68vw;top:34%;}
+
+  /* ── FRAME DO STICKER — esconde textos que sobrepõem pastas */
+  .sticker-frame .meta,
+  .sticker-frame .meta-r{display:none;}
+  .sticker-frame .scan{display:none;}
+
+  /* ── HUD ── */
+  .hud-tag{font-size:6px;letter-spacing:1px;}
+  .hud-tag.hud-tl{
+    max-width:45vw;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+  .hud-tag.hud-tr{display:none;}
+  .corner-spike{display:none;}
+
+  /* ── FLOPPY / PACK FEATURE ── */
+  .pack-feature{bottom:58px;gap:5px;}
+  .pack-feature .featured-label{font-size:7px;letter-spacing:2px;}
+  .floppy-body{width:78px;height:78px;}
   .floppy-body .lbl-text b{font-size:9px;}
   .floppy-body .lbl-text span{font-size:7px;}
-  .pack-sub{font-size:13px;}
-  .hud-tag{font-size:7px;}
-  .corner-spike{display:none;}
+  .pack-sub{font-size:12px;letter-spacing:1px;}
+
+  /* ── JANELAS ── */
   .pack-win,.section-win,.about-win{
     width:94vw !important;max-width:94vw;
-    left:3vw !important;top:50% !important;transform:translateY(-50%) !important;
+    left:3vw !important;top:50% !important;
+    transform:translateY(-50%) !important;
   }
-  .pack-win.open,.section-win.open,.about-win.open{transform:translateY(-50%) !important;}
-  .start-menu{width:88vw;}
+  .pack-win.open,.section-win.open,.about-win.open{
+    transform:translateY(-50%) !important;
+  }
+  .start-menu{width:90vw;}
+}
+
+/* ── TELEFONES PEQUENOS (< 480px) ── */
+@media (max-width:480px){
+  /* pastas: só ícone, sem texto */
+  .float-item.f1{top:4%;left:0;--tz:-30px;}
+  .float-item.f2{top:4%;right:0;--tz:-30px;}
+  .float-item.f3{top:auto;bottom:18%;left:0;--tz:-20px;}
+  .float-item.f4{top:auto;bottom:18%;right:0;--tz:-20px;}
+  .float-item .folder-3d{--w:66px;--h:52px;}
+  .folder-3d .label{display:none;}
+  .folder-3d .icon-row{display:none;}
+
+  /* sticker bem centralizado e compacto */
+  .sticker-stage{width:62vw;top:33%;}
+
+  /* floppy menor */
+  .pack-feature{bottom:56px;gap:4px;}
+  .floppy-body{width:68px;height:68px;}
+  .floppy-body .lbl-text b{font-size:8px;}
+  .pack-sub{font-size:11px;}
+
+  /* hud mínimo */
+  .hud-tag.hud-tl{display:none;}
 }
 
 ::selection{background:var(--cyan);color:#000;}
