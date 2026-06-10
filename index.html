@@ -1381,12 +1381,22 @@ button,a,.clickable,[data-section],.di,.file-row,.start-menu li{
   /* ── JANELAS ── */
   .pack-win,.section-win,.about-win{
     width:94vw !important;max-width:94vw;
-    left:3vw !important;top:50% !important;
-    transform:translateY(-50%) !important;
+    left:3vw !important;top:2vh !important;
+    transform:none !important;
+    max-height:96vh;
   }
   .pack-win.open,.section-win.open,.about-win.open{
-    transform:translateY(-50%) !important;
+    transform:none !important;
+    display:flex;flex-direction:column;
   }
+  /* a janela inteira rola no mobile — antes só a lista rolava e a janela
+     estourava a tela, deixando o ✕ e o botão COMPRAR fora do alcance */
+  .win .title,.win .menu-bar{flex-shrink:0;}
+  .pack-win .body,.section-win .body,.about-win .body{
+    flex:1 1 auto;min-height:0;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
+  .pack-list{max-height:none;}
   .start-menu{width:90vw;}
 }
 
