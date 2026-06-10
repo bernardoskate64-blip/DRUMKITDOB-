@@ -1869,17 +1869,17 @@ const bootLines = document.getElementById('bootLines');
 const bootPct = document.getElementById('bootPct');
 const lines = [
   { t:0,    text:"<b>></b> DOBÊ // OS  v3.03  loading kernel..." },
-  { t:280,  text:"<b>></b> mounting /drum_kits  ............ <i>OK</i>" },
-  { t:560,  text:"<b>></b> mounting /presets    ............ <i>OK</i>" },
-  { t:840,  text:"<b>></b> mounting /templates  ............ <i>OK</i>" },
-  { t:1120, text:"<b>></b> mounting /bundles    ............ <i>OK</i>" },
-  { t:1400, text:"<b>></b> initialising audio_driver ....... <em>WARN</em>" },
-  { t:1700, text:"<b>></b> patching cracks  ................ <i>OK</i>" },
-  { t:2000, text:"<b>></b> spraying signature  ............. <i>OK</i>" },
-  { t:2400, text:"<b>></b> connecting node 46N::RIO ........ <i>OK</i>" },
-  { t:2800, text:"<b>></b> handshake complete." },
-  { t:3200, text:"<b>></b> bem-vindo, producer." },
-  { t:3700, text:"<b>></b> sistema iniciado_" }
+  { t:150,  text:"<b>></b> mounting /drum_kits  ............ <i>OK</i>" },
+  { t:300,  text:"<b>></b> mounting /presets    ............ <i>OK</i>" },
+  { t:450,  text:"<b>></b> mounting /templates  ............ <i>OK</i>" },
+  { t:600,  text:"<b>></b> mounting /bundles    ............ <i>OK</i>" },
+  { t:760,  text:"<b>></b> initialising audio_driver ....... <em>WARN</em>" },
+  { t:920,  text:"<b>></b> patching cracks  ................ <i>OK</i>" },
+  { t:1080, text:"<b>></b> spraying signature  ............. <i>OK</i>" },
+  { t:1260, text:"<b>></b> connecting node 46N::RIO ........ <i>OK</i>" },
+  { t:1440, text:"<b>></b> handshake complete." },
+  { t:1620, text:"<b>></b> bem-vindo, producer." },
+  { t:1800, text:"<b>></b> sistema iniciado_" }
 ];
 let buf = "";
 lines.forEach(l => setTimeout(()=>{
@@ -1890,10 +1890,10 @@ lines.forEach(l => setTimeout(()=>{
 
 let pct = 0;
 const pctI = setInterval(()=>{
-  pct = Math.min(100, pct + Math.round(Math.random()*4+2));
+  pct = Math.min(100, pct + Math.round(Math.random()*6+5));
   bootPct.textContent = pct + "%";
   if(pct>=100) clearInterval(pctI);
-},120);
+},95);
 
 let _booted = false;
 function revealDesktop(){
@@ -1904,7 +1904,7 @@ function revealDesktop(){
 }
 // pula boot em prefers-reduced-motion; permite pular com clique/tecla
 const _reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-setTimeout(revealDesktop, _reduceMotion ? 700 : 4600);
+setTimeout(revealDesktop, _reduceMotion ? 700 : 2000);
 bootEl.addEventListener('click', revealDesktop);
 
 /* ---------- CLOCK ---------- */
