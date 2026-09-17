@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#070d1c" />
+
+<title>DOBÊ DRUMS — Plugin VST3 gerador de grooves de Tech House</title>
+<meta name="description" content="DOBÊ DRUMS: plugin VST3 e Standalone que monta grooves completos de Tech House usando OS SEUS samples. Um clique gera kick, clap, hi-hats, percussão e shaker já nivelados, prontos para arrastar para a DAW." />
+<meta name="author" content="DOBÊ // @beatsbydobê" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://drumkitdobe.store/plugin/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23070d1c'/><rect x='4.5' y='4.5' width='23' height='23' rx='3' fill='none' stroke='%2300f0ff' stroke-width='1.5'/><text x='16' y='21.5' font-family='monospace' font-size='13' font-weight='700' fill='%2300f0ff' text-anchor='middle'>DB</text></svg>" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="DOBÊ // OS" />
+<meta property="og:title" content="DOBÊ DRUMS — Plugin VST3 de grooves de Tech House" />
+<meta property="og:description" content="Gera grooves completos com os SEUS samples. VST3 + Standalone, Windows 64-bit. Funciona offline." />
+<meta property="og:url" content="https://drumkitdobe.store/plugin/" />
+<meta property="og:image" content="https://drumkitdobe.store/assets/hello-dobe.jpg" />
+<meta property="og:locale" content="pt_BR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="DOBÊ DRUMS — Plugin VST3 de grooves de Tech House" />
+<meta name="twitter:description" content="Gera grooves completos com os SEUS samples. VST3 + Standalone, Windows 64-bit." />
+<meta name="twitter:image" content="https://drumkitdobe.store/assets/hello-dobe.jpg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=JetBrains+Mono:wght@400;500;700&family=Bungee&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   DOBÊ // OS — /plugin/  (mesma linguagem visual do site raiz)
+   Paleta, fontes e chrome de janela copiados de index.html.
+   ========================================================= */
+:root{
+  --bg-deep:#070d1c;
+  --bg-mid:#0e1a36;
+  --window-bg:#ece9d8;
+  --window-border-dark:#5a5e68;
+  --red:#d92525;
+  --red-deep:#a01818;
+  --paper:#f4f1e6;
+  --ink:#0a0a0a;
+  --cyan:#00f0ff;
+  --cyan-soft:rgba(0,240,255,.35);
+  --gold:#f5c43a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100%;
+  background:
+    radial-gradient(ellipse at 22% 10%, rgba(0,80,200,.20), transparent 55%),
+    radial-gradient(ellipse at 80% 92%, rgba(217,37,37,.10), transparent 50%),
+    linear-gradient(160deg,#14254f 0%,var(--bg-mid) 45%,var(--bg-deep) 80%,#050816 100%);
+  background-attachment:fixed;
+  color:#e8e8ee;
+  font-family:'JetBrains Mono',monospace;
+  padding:26px 14px 60px;
+}
+.stars{
+  position:fixed;inset:0;z-index:0;opacity:.6;pointer-events:none;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%,#fff,transparent),
+    radial-gradient(1px 1px at 33% 78%,#cfd,transparent),
+    radial-gradient(1.5px 1.5px at 67% 22%,#fff,transparent),
+    radial-gradient(1px 1px at 88% 64%,#f8f,transparent),
+    radial-gradient(1px 1px at 47% 41%,#ffd,transparent),
+    radial-gradient(1.5px 1.5px at 78% 8%,#fff,transparent);
+  animation:twinkle 3.5s ease-in-out infinite;
+}
+@keyframes twinkle{50%{opacity:.35}}
+@keyframes blink{50%{opacity:0}}
+.blink{animation:blink 1.2s steps(2) infinite}
+
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+
+/* ---- chrome de janela, igual ao site raiz ---- */
+.win{
+  background:var(--window-bg);
+  border:1px solid #002a8c;
+  box-shadow:inset 0 0 0 1px #fff,4px 4px 0 rgba(0,0,0,.45),0 14px 36px rgba(0,0,0,.45);
+  font-family:'JetBrains Mono',monospace;
+  color:var(--ink);
+  border-radius:6px 6px 0 0;
+  overflow:hidden;
+}
+.win .title{
+  height:26px;
+  background:linear-gradient(180deg,#0b3fd1 0%,#1862e6 8%,#1862e6 40%,#0b3fd1 75%,#04305c 100%);
+  color:#fff;display:flex;align-items:center;justify-content:space-between;
+  padding:0 4px 0 8px;font-size:11px;font-weight:700;letter-spacing:.3px;
+}
+.win .title b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.title-btns{display:flex;gap:2px;flex:none}
+.title-btns button{
+  width:22px;height:20px;
+  background:linear-gradient(180deg,#3c8cf0,#1450b8);
+  border:1px solid #002a8c;box-shadow:inset 1px 1px 0 rgba(255,255,255,.3);
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  color:#fff;line-height:1;border-radius:3px;cursor:default;
+}
+.title-btns .cls{background:linear-gradient(180deg,#e86a5a,#c02a18)}
+.menu-bar{
+  background:var(--window-bg);border-bottom:1px solid #b8b39c;
+  padding:3px 8px;font-size:11px;display:flex;gap:14px;
+}
+.menu-bar span{padding:1px 4px}
+.menu-bar span:hover{background:#316ac5;color:#fff}
+.body{padding:16px 18px;background:var(--paper)}
+.status-bar{
+  background:var(--window-bg);border-top:1px solid #b8b39c;
+  padding:3px 8px;font-size:11px;font-family:'VT323',monospace;letter-spacing:.5px;
+  color:#1a1a22;display:flex;justify-content:space-between;gap:10px;
+}
+
+/* ---- topo ---- */
+.hero{text-align:center;padding:26px 18px 22px}
+.hero h1{
+  font-family:'Press Start 2P',monospace;font-size:19px;line-height:1.7;
+  color:var(--ink);margin-bottom:12px;
+}
+.hero .sub{font-family:'VT323',monospace;font-size:21px;letter-spacing:.6px;color:#333;line-height:1.35}
+.badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px}
+.badge{
+  font-size:10px;font-weight:700;letter-spacing:.5px;
+  padding:4px 9px;border:1px solid #9a9a86;
+  background:#fff;color:#1a1a22;border-radius:3px;
+}
+
+h2{
+  font-family:'Press Start 2P',monospace;font-size:12px;line-height:1.7;
+  color:var(--ink);margin-bottom:12px;
+}
+p{font-size:13px;line-height:1.75;color:#24242c;margin-bottom:11px}
+strong{color:#000}
+.small{font-size:12px;color:#55555f}
+
+/* ---- passos ---- */
+.steps{display:flex;flex-direction:column;gap:9px;margin:4px 0 2px}
+.step{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid #c9c5b2;padding:10px 12px;border-radius:3px}
+.step .n{
+  font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;
+  background:linear-gradient(180deg,#1862e6,#0b3fd1);
+  min-width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  border-radius:3px;flex:none;
+}
+.step .t{font-size:13px;line-height:1.6}
+.step .t b{display:block;margin-bottom:2px}
+
+/* ---- lista de recursos ---- */
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.feat div{background:#fff;border:1px solid #c9c5b2;padding:10px 12px;border-radius:3px;font-size:12.5px;line-height:1.6}
+.feat b{display:block;margin-bottom:3px}
+
+/* ---- compra ---- */
+.buy{text-align:center;padding:22px 18px}
+.price{font-family:'Bungee','Press Start 2P',monospace;font-size:30px;color:var(--ink);letter-spacing:1px}
+.btn{
+  display:inline-block;margin:16px auto 10px;padding:16px 30px;
+  font-family:'Press Start 2P',monospace;font-size:12px;line-height:1.6;
+  color:#fff;text-decoration:none;border-radius:4px;
+  background:linear-gradient(180deg,#e2452f,#b5170a);
+  border:1px solid #7d0f06;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 3px 0 rgba(0,0,0,.4);
+}
+.btn:hover{filter:brightness(1.1)}
+.btn:active{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 1px 0 rgba(0,0,0,.4)}
+.pay{font-size:11px;color:#55555f;line-height:1.7;margin-top:6px}
+
+/* ---- avisos honestos ---- */
+.note{
+  background:#fffbe6;border:1px solid #d9c56a;border-left:4px solid var(--gold);
+  padding:11px 13px;border-radius:3px;font-size:12.5px;line-height:1.65;margin-top:12px;
+}
+.note b{display:block;margin-bottom:3px}
+
+/* ---- marcador de pendência (só para você, some ao publicar) ---- */
+.todo{
+  background:#ffe9e9;border:1px solid #d99;border-left:4px solid var(--red);
+  padding:11px 13px;border-radius:3px;font-size:12.5px;line-height:1.65;
+}
+.todo b{display:block;margin-bottom:4px;color:var(--red-deep)}
+code{background:#2a2a33;color:#8ef;padding:1px 5px;border-radius:2px;font-size:12px}
+
+.foot{text-align:center;font-family:'VT323',monospace;font-size:17px;color:#7a86a8;letter-spacing:.6px}
+.foot a{color:var(--cyan);text-decoration:none}
+.foot a:hover{text-decoration:underline}
+
+@media(max-width:620px){
+  body{padding:16px 9px 44px}
+  .hero h1{font-size:14px}
+  .hero .sub{font-size:18px}
+  .feat{grid-template-columns:1fr}
+  .price{font-size:24px}
+  .btn{font-size:10px;padding:14px 20px}
+  h2{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<div class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <div class="win">
+    <div class="title">
+      <b>C:\DOBÊ\PLUGIN\DOBÊ_DRUMS.exe</b>
+      <div class="title-btns"><button>_</button><button>□</button><button class="cls">✕</button></div>
+    </div>
+    <div class="menu-bar"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>H</u>elp</span></div>
+    <div class="body hero">
+      <h1>DOBÊ DRUMS</h1>
+      <div class="sub">
+        O plugin que monta o groove de Tech House<br>
+        usando <b>os seus próprios samples</b>.
+      </div>
+      <div class="badges">
+        <span class="badge">VST3</span>
+        <span class="badge">STANDALONE</span>
+        <span class="badge">WINDOWS 64-BIT</span>
+        <span class="badge">FUNCIONA OFFLINE</span>
+        <span class="badge">v1.0.0</span>
+      </div>
+    </div>
+    <div class="status-bar"><span>DOBÊ // OS · módulo PLUGIN</span><span class="blink">▮ READY</span></div>
+  </div>
+
+  <!-- ============ O QUE É ============ -->
+  <div class="win">
+    <div class="title">
+      <b>O que ele faz</b>
+      <div class="title-btns"><button>_</button><button>□</button><button class="cls">✕</button></div>
+    </div>
+    <div class="body">
+      <h2>UM CLIQUE, UM GROOVE INTEIRO</h2>
+      <p>
+        Você aperta <strong>GENERATE</strong> e o DOBÊ DRUMS escreve quatro compassos completos —
+        kick, clap ou caixa, hi-hats fechado e aberto, percussão e shaker — já nivelados entre si e
+        no tempo do seu projeto. Não é sorteio de samples: é um motor de regras construído a partir
+        da análise de centenas de faixas de Tech House.
+      </p>
+      <p>
+        Gostou de uma parte? <strong>Trave a lane</strong> e gere o resto de novo. Quando estiver bom,
+        arraste direto para a DAW — o groove inteiro em WAV, uma lane sozinha, ou o MIDI.
+      </p>
+
+      <div class="note">
+        <b>Ele não vem com sons.</b>
+        O DOBÊ DRUMS usa a <strong>sua</strong> biblioteca. Na primeira abertura você aponta a pasta
+        dos seus drum kits e ele analisa e classifica tudo — kick, clap, snare, rim, hats, perc,
+        shaker. Isso acontece uma vez só; depois abre em segundos.
+      </div>
+    </div>
+    <div class="status-bar"><span>motor de grooves · Tech House</span><span>4 compassos · 16º</span></div>
+  </div>
+
+  <!-- ============ COMO FUNCIONA ============ -->
+  <div class="win">
+    <div class="title">
+      <b>Como funciona</b>
+      <div class="title-btns"><button>_</button><button>□</button><button class="cls">✕</button></div>
+    </div>
+    <div class="body">
+      <h2>QUATRO PASSOS</h2>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><div class="t"><b>APONTE SEUS SAMPLES</b>Escolha a pasta dos seus drum kits. Ele varre as subpastas e identifica cada som sozinho.</div></div>
+        <div class="step"><div class="n">2</div><div class="t"><b>GENERATE</b>Um groove completo, no tempo do seu projeto, com os níveis já ajustados.</div></div>
+        <div class="step"><div class="n">3</div><div class="t"><b>LOCK</b>Trave o que ficou bom, gere o resto de novo. Quantas vezes quiser.</div></div>
+        <div class="step"><div class="n">4</div><div class="t"><b>ARRASTE</b>Groove inteiro, lane isolada ou MIDI — direto para a sua DAW.</div></div>
+      </div>
+    </div>
+    <div class="status-bar"><span>fluxo de trabalho</span><span class="blink">▮ SCAN → GENERATE → LOCK → DRAG</span></div>
+  </div>
+
+  <!-- ============ DETALHES ============ -->
+  <div class="win">
+    <div class="title">
+      <b>Especificações</b>
+      <div class="title-btns"><button>_</button><button>□</button><button class="cls">✕</button></div>
+    </div>
+    <div class="body">
+      <h2>O QUE VEM NA CAIXA</h2>
+      <div class="feat">
+        <div><b>VST3 + Standalone</b>Use na DAW ou sozinho, sem abrir nada.</div>
+        <div><b>Windows 64-bit</b>Não precisa instalar mais nada: o runtime vai dentro.</div>
+        <div><b>Sua biblioteca</b>Analisa e cataloga os seus packs. Novo pack? Só dar Rescan.</div>
+        <div><b>Arraste WAV e MIDI</b>Groove completo, lane isolada, ou MIDI mapeado.</div>
+        <div><b>Níveis automáticos</b>Cada lane entra no volume certo, sem você mexer.</div>
+        <div><b>Funciona offline</b>Depois de ativado, não precisa de internet para usar.</div>
+      </div>
+
+      <div class="note">
+        <b>Requisitos</b>
+        Windows 10 ou 11, 64 bits. Uma DAW com suporte a VST3 (Ableton Live, FL Studio, Bitwig,
+        Reaper, Studio One, Cubase). Seus próprios samples em WAV, AIFF, FLAC, MP3 ou OGG.
+        <br><span class="small">Ainda não há versão para macOS.</span>
+      </div>
+    </div>
+    <div class="status-bar"><span>v1.0.0</span><span>3 ativações por licença</span></div>
+  </div>
+
+  <!-- ============ COMPRA ============ -->
+  <div class="win">
+    <div class="title">
+      <b>C:\DOBÊ\PLUGIN\COMPRAR</b>
+      <div class="title-btns"><button>_</button><button>□</button><button class="cls">✕</button></div>
+    </div>
+    <div class="body buy">
+      <div class="price" id="preco">DOBÊ DRUMS</div>
+      <p class="small" style="margin-top:6px">Licença para 3 computadores · atualizações da linha 1.x</p>
+
+      <a class="btn" id="btnComprar" href="#" target="_blank" rel="noopener noreferrer">
+        COMPRAR / BUY NOW
+      </a>
+
+      <div class="pay">
+        <b>HOTMART · PAGAMENTO SEGURO</b><br>
+        Cartão · PayPal · Pix<br>
+        <span class="small">🌐 International cards accepted</span>
+      </div>
+
+      <div class="note" style="text-align:left">
+        <b>Como você recebe</b>
+        Depois da compra, a Hotmart libera o download do plugin e você recebe por e-mail a sua
+        <strong>chave de licença</strong>. Instale, abra o plugin, vá em <strong>Licence…</strong>
+        e digite a chave. Pronto — daí em diante funciona offline.
+      </div>
+    </div>
+    <div class="status-bar"><span>checkout via Hotmart</span><span class="blink">▮ AGUARDANDO LINK</span></div>
+  </div>
+
+  <div class="foot">
+    <a href="/">← voltar para o DOBÊ // OS</a> · drumkitdobe.store
+  </div>
+
+</div>
+
+<script>
+/* =========================================================================
+   CONFIGURAÇÃO — os dois únicos valores a preencher.
+
+   Enquanto estiverem vazios a página é SEGURA de publicar: o preço some e o
+   botão vira "EM BREVE", desabilitado. Nada de preço inventado, nada de botão
+   que leva a lugar nenhum.
+
+   PRECO        texto exibido. ex.: 'R$ 149,90'
+   CHECKOUT_URL link de checkout do produto DOBÊ DRUMS.
+                NÃO reutilizar o do drum kit: aquele vende outro produto, e a
+                licença é emitida a partir do webhook DESTE.
+   ========================================================================= */
+const PRECO        = 'R$ 200,00';
+
+// Checkout DIRETO (pay.hotmart.com), e nao a pagina de marketplace: o marketplace e uma
+// listagem intermediaria, e cada passo a mais entre o clique e o pagamento custa venda.
+// Mesmo padrao que o drum kit ja usa na pagina raiz. Conferido: responde 200, titulo
+// "DOBE DRUMS", com o preco na pagina.
+const CHECKOUT_URL = 'https://pay.hotmart.com/O107645887S';
+
+(function () {
+  const elPreco = document.getElementById('preco');
+  const btn     = document.getElementById('btnComprar');
+  const status  = btn.closest('.win').querySelector('.status-bar');
+
+  if (PRECO) elPreco.textContent = PRECO;
+
+  if (CHECKOUT_URL) {
+    btn.href = CHECKOUT_URL;
+    status.innerHTML = '<span>checkout via Hotmart</span><span class="blink">▮ PRONTO</span>';
+  } else {
+    btn.textContent = 'EM BREVE';
+    btn.removeAttribute('href');
+    btn.style.filter = 'grayscale(1)';
+    btn.style.cursor = 'default';
+    btn.addEventListener('click', (e) => e.preventDefault());
+    status.innerHTML = '<span>checkout</span><span class="blink">▮ EM BREVE</span>';
+  }
+})();
+</script>
+</body>
+</html>
