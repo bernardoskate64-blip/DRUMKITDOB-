@@ -40,11 +40,15 @@
       imagesrcset="assets/hero-960.webp?v=t6 960w, assets/hero-1280.webp?v=t6 1280w, assets/hero-1920.webp?v=t6 1920w, assets/hero-2560.webp?v=t6 2560w, assets/hero-3840.webp?v=t6 3840w"
       imagesizes="(max-aspect-ratio:8/5) 160vh, 100vw">
 <link rel="preload" as="image" fetchpriority="high"
+      media="(max-height:500px) and (orientation:landscape) and (pointer:coarse)"
+      imagesrcset="assets/hero-ls-1400.webp?v=ls1 1400w, assets/hero-ls-1900.webp?v=ls1 1900w, assets/hero-ls-2600.webp?v=ls1 2600w, assets/hero-ls-3300.webp?v=ls1 3300w"
+      imagesizes="100vw">
+<link rel="preload" as="image" fetchpriority="high"
       media="(max-width:760px), (max-aspect-ratio:3/5), (max-height:500px)"
       imagesrcset="assets/hero-mb-900.webp?v=t6 900w, assets/hero-mb-1520.webp?v=t6 1520w, assets/hero-mb-3040.webp?v=t6 3040w, assets/hero-mb-4560.webp?v=t6 4560w"
       imagesizes="108vw">
 
-<link rel="stylesheet" href="v2/style.css?v=green4">
+<link rel="stylesheet" href="v2/style.css?v=ls1">
 </head>
 <body>
 
@@ -63,6 +67,14 @@
          No desktop, v2/app.js carrega por cima o ARQUIVO ORIGINAL (6000x3750, 16:10). -->
     <div class="scene" data-master="assets/hero-dobe-life.png?v=t6">
       <picture class="hero-base">
+        <!-- celular DEITADO: a cena limpa (sem os textos gravados), porque neste
+             modo o menu, o título e o botão são HTML por cima — nítidos e tocáveis.
+             Só telas de toque, para não mudar nada em janela baixa de computador. -->
+        <source type="image/webp"
+                media="(max-height:500px) and (orientation:landscape) and (pointer:coarse)"
+                srcset="assets/hero-ls-1400.webp?v=ls1 1400w, assets/hero-ls-1900.webp?v=ls1 1900w, assets/hero-ls-2600.webp?v=ls1 2600w, assets/hero-ls-3300.webp?v=ls1 3300w"
+                sizes="100vw">
+
         <!-- celular / tela estreita: faixa larga do master (x 12–88%, y 40–100%),
              mesmos pixels, sem tratamento — só enquadramento. Mostra as duas NS-10M,
              a mesa, a tela do Ableton e parte da serra. -->
@@ -133,6 +145,8 @@
       <p class="home-soon" aria-disabled="true">Templates <i>em breve</i></p>
       <a href="https://wa.me/5522996113251" target="_blank" rel="noopener noreferrer">Suporte <i aria-hidden="true">→</i></a>
     </nav>
+
+    <a class="home-cta" href="#drumkit" aria-label="Abrir o Drum Kit">DOWNLOAD</a>
 
     <div class="home-social">
       <a href="https://wa.me/5522996113251" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
@@ -266,6 +280,6 @@
 </div>
 
 <script src="v2/packfiles.js?v=green4"></script>
-<script src="v2/app.js?v=green4"></script>
+<script src="v2/app.js?v=ls1"></script>
 </body>
 </html>

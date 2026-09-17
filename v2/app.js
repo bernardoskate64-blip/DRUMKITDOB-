@@ -24,6 +24,7 @@
 
   /* mesma regra de index.html (<source media>) e v2/style.css */
   var compact  = window.matchMedia('(max-width:760px), (max-aspect-ratio:3/5), (max-height:500px)');
+  var land     = window.matchMedia('(max-height:500px) and (orientation:landscape) and (pointer:coarse)');
   var finePtr  = window.matchMedia('(hover:hover) and (pointer:fine)');
   var reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -390,6 +391,7 @@
      ==================================================================== */
 
   (function(){
+    if(land.matches) return;                     // deitado: a cena ocupa a tela e não rola
     if(!compact.matches && !window.matchMedia('(max-width:760px)').matches) return;
     var items = [$('.brand-mark'), $('.home-intro')]
       .concat($$('.home-menu a, .home-soon'))
@@ -529,6 +531,19 @@
           {x:50, y:47, rx:9,   ry:3, size:7,  speed:2.8, color:'white',   depth:.45, far:true}  // bem longe, sobre o vale
         ]
       },
+      land: {
+        /* deitado: aparece a cena quase inteira (a janela vai de ~32% a ~94%
+           da altura da arte). As regiões ficam nas laterais, longe do texto
+           que ocupa a coluna central de cima. */
+        crop:{x:0, y:32, w:100, h:62},
+        list:[
+          {x:20, y:47, rx:4,   ry:5, size:13, speed:3.6, color:'sulphur', depth:1.2},          // hera à esquerda
+          {x:9,  y:82, rx:6,   ry:5, size:19, speed:5,   color:'white',   depth:2, near:true}, // flores do primeiro plano
+          {x:90, y:74, rx:4.5, ry:6, size:15, speed:4.2, color:'dryas',   depth:1.5},          // plantas à direita
+          {x:85, y:87, rx:5,   ry:3, size:14, speed:4,   color:'white',   depth:1.6},          // livros e mesa, à direita
+          {x:13, y:63, rx:3.5, ry:5, size:12, speed:3.4, color:'morpho',  depth:1.1}           // luminária e hera
+        ]
+      },
       compact: {
         crop:{x:12, y:40, w:76, h:60},        // a faixa hero-mb-*.webp
         list:[
@@ -557,7 +572,7 @@
     var rnd = function(a,b){ return a + Math.random()*(b-a); };
 
     function build(){
-      mode = compact.matches ? SCENES.compact : SCENES.wide;
+      mode = land.matches ? SCENES.land : (compact.matches ? SCENES.compact : SCENES.wide);
       flight.innerHTML = '';
       bugs = mode.list.map(function(z){
         var el = document.createElement('div');
@@ -662,7 +677,7 @@
     window.addEventListener('resize', function(){
       clearTimeout(rz);
       rz = setTimeout(function(){
-        var want = compact.matches ? SCENES.compact : SCENES.wide;
+        var want = land.matches ? SCENES.land : (compact.matches ? SCENES.compact : SCENES.wide);
         if(want !== mode) build(); else measure();
         navInd.rest(current);
         placeTabInd();
