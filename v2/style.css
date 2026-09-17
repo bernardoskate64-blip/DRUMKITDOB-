@@ -1084,6 +1084,76 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
 }
 
 /* =======================================================================
+   CELULAR EM PÉ: CONVITE PARA GIRAR
+   -----------------------------------------------------------------------
+   A experiência principal do celular é a deitada. Em pé, o site mostra o
+   convite; ao girar, ele some sozinho (é só uma media query, sem script).
+   "ver assim mesmo" mantém a versão vertical aprovada para quem não pode
+   girar. O convite não aparece com uma camada aberta: quem está lendo o
+   Drum Kit pode virar o aparelho sem perder o lugar.
+   ======================================================================= */
+.turn{display:none;}
+
+@media (orientation:portrait) and (pointer:coarse) and (max-width:600px){
+  .turn{
+    display:flex;position:fixed;inset:0;z-index:60;
+    align-items:center;justify-content:center;
+    padding:32px 28px max(32px, env(safe-area-inset-bottom));
+    background:
+      radial-gradient(120% 55% at 50% 104%, rgba(150,178,138,.22) 0%, rgba(150,178,138,0) 62%),
+      linear-gradient(180deg, var(--m-0) 0%, var(--m-1) 26%, var(--m-2) 54%, var(--m-3) 80%, var(--m-4) 100%);
+    opacity:0;animation:turn-in .9s var(--e-soft) .1s forwards;
+  }
+  html.turn-off .turn{display:none;}
+  html:not(.turn-off) body{overflow:hidden;}
+
+  .turn-in{display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .turn-mark{
+    display:block;width:132px;height:132px;margin:0 0 clamp(18px,4vh,34px);
+    mix-blend-mode:screen;
+  }
+  .turn-mark img{
+    width:100%;height:100%;display:block;
+    clip-path:inset(20% 14% 21.4% 16.4%);transform:scale(1.42);
+  }
+  .turn-phone{
+    display:block;width:52px;height:86px;margin:0 0 clamp(20px,4.4vh,36px);
+    border:1.6px solid rgba(255,255,255,.7);border-radius:12px;position:relative;
+    animation:turn-rot 3s var(--e-soft) infinite;
+  }
+  .turn-phone i{
+    position:absolute;left:50%;bottom:7px;width:16px;height:2px;border-radius:2px;
+    background:rgba(255,255,255,.55);transform:translateX(-50%);
+  }
+  .turn-title{
+    font-family:var(--serif);font-weight:400;font-size:clamp(30px,8.4vw,42px);
+    line-height:1.05;letter-spacing:.005em;
+  }
+  .turn-sub{
+    margin-top:10px;max-width:26ch;
+    font-size:13.5px;line-height:1.65;color:rgba(255,255,255,.76);
+  }
+  .turn-skip{
+    margin-top:clamp(26px,6vh,52px);min-height:44px;padding:0 6px;
+    background:none;border:0;color:rgba(255,255,255,.55);
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.28);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .turn-skip:active{color:#fff;border-bottom-color:rgba(255,255,255,.6);}
+}
+
+/* com a camada aberta o convite sai da frente */
+html.layer-open .turn{display:none;}
+
+@keyframes turn-in{to{opacity:1;}}
+@keyframes turn-rot{
+  0%,16%{transform:rotate(0);}
+  36%,68%{transform:rotate(-90deg);}
+  88%,100%{transform:rotate(0);}
+}
+
+/* =======================================================================
    ACESSIBILIDADE
    -----------------------------------------------------------------------
    "Reduzir movimento": tudo continua em fade, mas sem deslocamentos,
@@ -1100,6 +1170,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
   .card:hover{--lift:-3px;}
   .whisper{transform:translate(0,-50%);}
   .fog{transition-duration:.9s;}
+  .turn{animation:none;opacity:1;}
+  .turn-phone{animation:none;transform:rotate(-90deg);}
   .letterbox i{transition:opacity 1s var(--e-soft);}
   .home.ready .letterbox i{transform:none;opacity:0;}
 }

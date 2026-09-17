@@ -48,7 +48,7 @@
       imagesrcset="assets/hero-mb-900.webp?v=t6 900w, assets/hero-mb-1520.webp?v=t6 1520w, assets/hero-mb-3040.webp?v=t6 3040w, assets/hero-mb-4560.webp?v=t6 4560w"
       imagesizes="108vw">
 
-<link rel="stylesheet" href="v2/style.css?v=ls1">
+<link rel="stylesheet" href="v2/style.css?v=gir1">
 </head>
 <body>
 
@@ -169,6 +169,19 @@
 
 <p class="whisper" id="whisper" role="status" aria-live="polite"></p>
 
+<!-- Celular em pé: a experiência foi desenhada para a tela deitada, então o
+     site convida a girar. Sempre com saída para quem não pode girar (rotação
+     travada no aparelho, navegador dentro de outro aplicativo). -->
+<div class="turn" id="turn">
+  <div class="turn-in">
+    <span class="turn-mark"><img src="assets/dobe-logo.png?v=t6" width="500" height="500" alt="DOBÊ"></span>
+    <span class="turn-phone" aria-hidden="true"><i></i></span>
+    <p class="turn-title">Vire o celular</p>
+    <p class="turn-sub">A experiência foi feita para a tela deitada.</p>
+    <button class="turn-skip" type="button">ver assim mesmo</button>
+  </div>
+</div>
+
 
 <!-- =====================================================================
      CAMADA DE CONTEÚDO — Plugins e Drum Kit abrem aqui, sobre a Home.
@@ -280,6 +293,6 @@
 </div>
 
 <script src="v2/packfiles.js?v=green4"></script>
-<script src="v2/app.js?v=ls1"></script>
+<script src="v2/app.js?v=gir1"></script>
 </body>
 </html>

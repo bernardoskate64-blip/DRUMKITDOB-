@@ -437,6 +437,26 @@
   })();
 
   /* ====================================================================
+     4c. CELULAR EM PÉ: CONVITE PARA GIRAR
+     --------------------------------------------------------------------
+     A tela de convite é CSS puro (some sozinha ao girar). Aqui só fica a
+     saída: quem não pode girar toca em "ver assim mesmo" e segue na versão
+     vertical pelo resto da visita.
+     ==================================================================== */
+
+  (function(){
+    var turn = $('#turn');
+    if(!turn) return;
+    var root = document.documentElement;
+    try{ if(sessionStorage.getItem('dobe-girar') === 'nao') root.classList.add('turn-off'); }catch(e){}
+    var skip = $('.turn-skip', turn);
+    if(skip) skip.addEventListener('click', function(){
+      root.classList.add('turn-off');
+      try{ sessionStorage.setItem('dobe-girar', 'nao'); }catch(e){}
+    });
+  })();
+
+  /* ====================================================================
      5. REVELAÇÃO AO ROLAR (dentro da camada)
      ==================================================================== */
 
