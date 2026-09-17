@@ -990,11 +990,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
 @media (max-height:500px) and (orientation:landscape) and (pointer:coarse){
   body{overflow:hidden;}
   .home{
-    height:100vh;height:100svh;min-height:0;
+    height:100vh;height:100svh;height:100dvh;min-height:0;
     container-type:normal;display:block;padding:0;
+    background:var(--night);
   }
+  /* fixo na tela: no iPhone a barra do Safari muda a altura útil e sobrava uma
+     faixa do fundo embaixo. Fixo, a cena cobre sempre a tela inteira. */
   .stage{
-    position:absolute;inset:0;left:0;top:0;
+    position:fixed;inset:0;left:0;top:0;
     width:100%;height:100%;transform:none;
   }
   /* 76% na vertical: sobra céu no alto para o texto e a mesa fica inteira */
@@ -1047,8 +1050,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
     text-shadow:0 2px 12px rgba(0,0,0,.5);
   }
   .home-menu a i{display:none;}
-  .home-soon{color:rgba(255,255,255,.62);}
-  .home-soon i{font-size:8.5px;letter-spacing:.16em;}
+  /* deitado: menu curto (Plugins, Drum Kit, Suporte). Templates volta em pé. */
+  .home-soon{display:none;}
 
   .home-cta{
     order:3;display:inline-flex;align-items:center;justify-content:center;
@@ -1062,6 +1065,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
     transition:transform .4s var(--e-out), background .3s var(--e-soft);
   }
   .home-cta:active{transform:scale(.97);background:rgba(255,255,255,.2);}
+}
+
+/* deitado mais alto (iPhone XR, 14, S23...): sobra mais céu no alto e o bloco
+   de texto sobe, para o DOWNLOAD ficar longe da cabeça */
+@media (max-height:500px) and (orientation:landscape) and (pointer:coarse) and (max-aspect-ratio:12/5){
+  .hero-base img,.hero-master{object-position:center 66%;}
+  .stage::before{background-position:center 66%;}
+  .home-copy{height:37vh;padding-top:calc(4.6vh + 14px);}
 }
 
 /* deitado em aparelho pequeno (iPhone SE e afins): o menu encolhe para não
