@@ -61,8 +61,10 @@
   setTimeout(ready, 4000);   // nunca deixa a Home esperando indefinidamente
 
   var masterState = 0;       // 0 nada, 1 carregando, 2 na tela
+  var night = document.documentElement.classList.contains('noite');
   function loadMaster(){
-    if(masterState || compact.matches || !scene.dataset.master) return;
+    /* de noite o original de 6000px (diurno) não entra: fica a noturna da <picture> */
+    if(masterState || night || compact.matches || !scene.dataset.master) return;
     masterState = 1;
     var im = new Image();
     im.className = 'hero-master';
@@ -71,6 +73,7 @@
     im.decoding = 'async';
     im.src = scene.dataset.master;
     var shown = function(){
+      if(night){ masterState = 0; return; }   // virou noite enquanto baixava
       scene.insertBefore(im, $('.fx', scene));
       requestAnimationFrame(function(){ requestAnimationFrame(function(){ im.classList.add('in'); }); });
       masterState = 2;
@@ -81,6 +84,36 @@
   }
   loadMaster();
   compact.addEventListener('change', loadMaster);
+
+  /* dia e noite (regra e troca de arquivos em index.html: dobeNoite / dobeCapa).
+     Confere a cada virada de minuto (20:00 e 05:00 caem sempre num minuto cheio)
+     e ao voltar para a aba. Sem recarregar: a <picture> segura a imagem atual
+     até a nova chegar; o original diurno sai só depois que a noturna está pronta. */
+  function setNight(on){
+    if(on === night || !window.dobeCapa) return;
+    night = on;
+    window.dobeCapa(on);
+    if(on){
+      var master = $('.hero-master', scene);
+      if(!master) return;
+      var drop = function(){ if(night && master.parentNode){ master.remove(); masterState = 0; } };
+      if(baseImg && !baseImg.complete){
+        baseImg.addEventListener('load', drop, {once:true});
+        baseImg.addEventListener('error', drop, {once:true});
+      } else { drop(); }
+    } else {
+      loadMaster();
+    }
+  }
+  var clockTimer = 0;
+  function checkClock(){
+    clearTimeout(clockTimer);
+    var d = new Date();
+    if(window.dobeNoite) setNight(window.dobeNoite(d));
+    clockTimer = setTimeout(checkClock, 60000 - (d.getSeconds()*1000 + d.getMilliseconds()) + 50);
+  }
+  checkClock();
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) checkClock(); });
 
   /* ====================================================================
      2. CAMADAS

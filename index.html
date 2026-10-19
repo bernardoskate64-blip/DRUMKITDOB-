@@ -34,6 +34,27 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+<!-- dia e noite pelo relógio de Brasília (America/Sao_Paulo), não pelo do visitante:
+     05:00–19:59 a capa original; 20:00–04:59 a noturna (assets/hero-noite-*, mesmos
+     recortes e os mesmos textos gravados). dobeCapa só troca os arquivos da <picture>. -->
+<script>
+window.dobeNoite=function(d){
+  try{var h=+new Intl.DateTimeFormat('en-GB',{timeZone:'America/Sao_Paulo',hour:'2-digit',hourCycle:'h23'}).format(d||new Date());return h>=20||h<5;}
+  catch(e){return false;}
+};
+window.dobeCapa=function(noite){
+  document.documentElement.classList.toggle('noite',noite);
+  [].forEach.call(document.querySelectorAll('.hero-base source,.hero-base img'),function(el){
+    ['srcset','src'].forEach(function(a){
+      var v=el.getAttribute(a);if(!v)return;
+      v=v.replace(/assets\/hero-noite-/g,'assets/hero-');
+      el.setAttribute(a,noite?v.replace(/assets\/hero-/g,'assets/hero-noite-'):v);
+    });
+  });
+};
+if(dobeNoite())document.documentElement.classList.add('noite');
+</script>
+
 <!-- a capa certa para cada enquadramento (a mesma regra de v2/app.js e v2/style.css) -->
 <link rel="preload" as="image" fetchpriority="high"
       media="(min-width:761px) and (min-aspect-ratio:3/5) and (min-height:501px)"
@@ -48,7 +69,7 @@
       imagesrcset="assets/hero-mb-900.webp?v=t6 900w, assets/hero-mb-1520.webp?v=t6 1520w, assets/hero-mb-3040.webp?v=t6 3040w, assets/hero-mb-4560.webp?v=t6 4560w"
       imagesizes="108vw">
 
-<link rel="stylesheet" href="v2/style.css?v=promo1">
+<link rel="stylesheet" href="v2/style.css?v=noite1">
 </head>
 <body>
 
@@ -92,6 +113,7 @@
              alt="Produtor no estúdio, entre monitores Yamaha NS-10 e plantas, com as montanhas de Nova Friburgo ao fundo"
              fetchpriority="high" decoding="async">
       </picture>
+      <script>if(window.dobeNoite&&dobeNoite())dobeCapa(true);</script>
 
       <!-- entrada: névoa que se dissipa sobre título, subtítulo, botão e localização
            (a arte não é tocada — só uma camada translúcida que some) -->
@@ -293,6 +315,6 @@
 </div>
 
 <script src="v2/packfiles.js?v=green4"></script>
-<script src="v2/app.js?v=xr1"></script>
+<script src="v2/app.js?v=noite1"></script>
 </body>
 </html>
