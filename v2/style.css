@@ -258,6 +258,42 @@ html.noite{--lqip:url("data:image/jpeg;base64,C:/Program Files/Git/9j/4AAQSkZJRg
 .hs-download:hover::after,.hs-download:focus-visible::after{opacity:1;transform:scale(1.02);}
 .hs-download:active::after{transform:scale(.97);transition-duration:.1s;}
 
+/* DIA / NOITE: interruptor discreto logo abaixo do DOWNLOAD.
+   Dia = trilho escuro, sol aceso, botão à direita. Noite = trilho claro,
+   botão à esquerda, lua e estrelas. O estado vem de html.noite. */
+.dn{
+  display:block;padding:0;border:0;background:none;color:inherit;cursor:pointer;
+  border-radius:999px;-webkit-tap-highlight-color:transparent;
+  opacity:.82;transition:opacity .3s var(--e-soft), transform .4s var(--spring);
+}
+.dn:hover,.dn:focus-visible{opacity:1;}
+.dn:focus-visible{outline:2px solid rgba(255,255,255,.9);outline-offset:3px;}
+.dn svg{display:block;width:100%;height:100%;overflow:visible;}
+.dn-track{fill:rgba(14,17,22,.55);stroke:rgba(255,255,255,.4);stroke-width:1.5;transition:fill .6s var(--e-soft), stroke .6s var(--e-soft);}
+.dn-sun circle{fill:var(--on-dark);}
+.dn-sun path{fill:none;stroke:var(--on-dark);stroke-width:3;stroke-linecap:round;}
+.dn-moon path{fill:var(--night);}
+.dn-sun,.dn-moon{transition:opacity .45s var(--e-soft);}
+.dn-moon{opacity:0;}
+.dn-knob{fill:var(--on-dark);transition:transform .6s var(--glide), fill .6s var(--e-soft);}
+html.noite .dn-track{fill:rgba(243,241,234,.92);stroke:rgba(255,255,255,.6);}
+html.noite .dn-sun{opacity:0;}
+html.noite .dn-moon{opacity:1;}
+html.noite .dn-knob{fill:var(--night);transform:translateX(-46px);}
+
+/* desktop: centrado sob o DOWNLOAD pintado, em % do quadro como as áreas clicáveis */
+.dn-scene{
+  position:absolute;z-index:3;left:49.95%;top:41.9%;
+  width:2.6%;aspect-ratio:100/52;transform:translate(-50%,-50%);
+}
+.dn-scene:active{transform:translate(-50%,-50%) scale(.94);}
+.dn-cta{display:none;}
+
+/* troca manual: a capa anterior fica por cima e some em fade */
+.hero-fade{position:absolute;inset:0;z-index:0;pointer-events:none;transition:opacity .9s var(--e-soft);}
+img.hero-fade{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%;image-rendering:-webkit-optimize-contrast;}
+.hero-fade.out{opacity:0;}
+
 /* logo: o arquivo fornecido, sem alteração. O fundo dele é preto puro, então
    "screen" deixa só a marca sobre a cena (preto não soma luz). */
 .hs-logo{
@@ -808,7 +844,7 @@ html.noite{--lqip:url("data:image/jpeg;base64,C:/Program Files/Git/9j/4AAQSkZJRg
     top:calc((100vh - max(100vh,62.5vw)) * .45);
     top:calc((100cqh - max(100cqh,62.5cqw)) * .45);
   }
-  .hero-master,.fx,.hotspots{display:none;}
+  .hero-master,.fx,.hotspots,.dn-scene{display:none;}
   /* o LQIP é da capa inteira: posiciona na mesma faixa (x 12–88%, y 40–100%) */
   .stage::before{background-size:131.6% 166.667%;background-position:50% 100%;}
 
@@ -1077,6 +1113,26 @@ html.noite{--lqip:url("data:image/jpeg;base64,C:/Program Files/Git/9j/4AAQSkZJRg
     transition:transform .4s var(--e-out), background .3s var(--e-soft);
   }
   .home-cta:active{transform:scale(.97);background:rgba(255,255,255,.2);}
+
+  /* dia / noite: abaixo do DOWNLOAD sem empurrar nada (a margem negativa
+     devolve a altura que ele ocupa no bloco centrado) */
+  .dn-cta{
+    order:4;display:block;width:40px;height:21px;flex:none;
+    margin-top:calc(-21px - clamp(5px,1.4vh,12px));
+    transform:translateY(29px);
+  }
+  .dn-cta:active{transform:translateY(29px) scale(.94);}
+}
+
+/* deitado mais largo (852x330, 915x356): abaixo do DOWNLOAD fica o boné, então
+   o dia/noite vai para o lado dele, na mesma altura. Metade do DOWNLOAD =
+   padding + texto (3,1 x fonte) + borda; depois 12px de folga + metade do botão. */
+@media (max-height:500px) and (orientation:landscape) and (pointer:coarse) and (min-aspect-ratio:241/100){
+  .dn-cta,.dn-cta:active{
+    transform:translate(
+      calc(clamp(20px,4vw,38px) + clamp(11.5px,1.6vh + 4px,16px) * 3.1 + 33px),
+      calc(10.5px - clamp(32px,6.6vh,44px) / 2));
+  }
 }
 
 /* deitado mais alto (iPhone XR, 14, S23...): sobra mais céu no alto e o bloco

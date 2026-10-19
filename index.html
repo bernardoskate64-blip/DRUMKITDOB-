@@ -69,7 +69,7 @@ if(dobeNoite())document.documentElement.classList.add('noite');
       imagesrcset="assets/hero-mb-900.webp?v=t6 900w, assets/hero-mb-1520.webp?v=t6 1520w, assets/hero-mb-3040.webp?v=t6 3040w, assets/hero-mb-4560.webp?v=t6 4560w"
       imagesizes="108vw">
 
-<link rel="stylesheet" href="v2/style.css?v=noite1">
+<link rel="stylesheet" href="v2/style.css?v=dn1">
 </head>
 <body>
 
@@ -143,6 +143,16 @@ if(dobeNoite())document.documentElement.classList.add('noite');
         <a class="hs-logo" href="#home" aria-label="DOBÊ"><img src="assets/dobe-logo.png" width="500" height="500" alt=""></a>
         <a class="hs-insta" href="https://www.instagram.com/beatsbydobe/" target="_blank" rel="noopener noreferrer" aria-label="Instagram @beatsbydobe"></a>
       </nav>
+
+      <!-- dia / noite: logo abaixo do DOWNLOAD pintado (desktop) -->
+      <button class="dn dn-scene" type="button" role="switch" aria-checked="false" aria-label="Modo noturno" title="Dia / noite" data-daynight>
+        <svg viewBox="0 0 100 52" aria-hidden="true">
+          <rect class="dn-track" x="1" y="1" width="98" height="50" rx="25"/>
+          <g class="dn-sun"><circle cx="27" cy="26" r="6.5"/><path d="M27 11.5v4M27 36.5v4M12.5 26h4M37.5 26h4M16.7 15.7l2.9 2.9M34.4 33.4l2.9 2.9M16.7 36.3l2.9-2.9M34.4 18.6l2.9-2.9"/></g>
+          <g class="dn-moon"><path d="M67.86 17.19A12 12 0 1 0 81.81 31.14A10 10 0 0 1 67.86 17.19Z"/><path d="M85 9.5Q85 14 89.5 14Q85 14 85 18.5Q85 14 80.5 14Q85 14 85 9.5Z"/><path d="M90 22.5Q90 25 92.5 25Q90 25 90 27.5Q90 25 87.5 25Q90 25 90 22.5Z"/></g>
+          <circle class="dn-knob" cx="73" cy="26" r="18"/>
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -169,6 +179,15 @@ if(dobeNoite())document.documentElement.classList.add('noite');
     </nav>
 
     <a class="home-cta" href="#drumkit" aria-label="Abrir o Drum Kit">DOWNLOAD</a>
+    <!-- dia / noite abaixo do DOWNLOAD (celular deitado) -->
+    <button class="dn dn-cta" type="button" role="switch" aria-checked="false" aria-label="Modo noturno" title="Dia / noite" data-daynight>
+      <svg viewBox="0 0 100 52" aria-hidden="true">
+        <rect class="dn-track" x="1" y="1" width="98" height="50" rx="25"/>
+        <g class="dn-sun"><circle cx="27" cy="26" r="6.5"/><path d="M27 11.5v4M27 36.5v4M12.5 26h4M37.5 26h4M16.7 15.7l2.9 2.9M34.4 33.4l2.9 2.9M16.7 36.3l2.9-2.9M34.4 18.6l2.9-2.9"/></g>
+        <g class="dn-moon"><path d="M67.86 17.19A12 12 0 1 0 81.81 31.14A10 10 0 0 1 67.86 17.19Z"/><path d="M85 9.5Q85 14 89.5 14Q85 14 85 18.5Q85 14 80.5 14Q85 14 85 9.5Z"/><path d="M90 22.5Q90 25 92.5 25Q90 25 90 27.5Q90 25 87.5 25Q90 25 90 22.5Z"/></g>
+        <circle class="dn-knob" cx="73" cy="26" r="18"/>
+      </svg>
+    </button>
 
     <div class="home-social">
       <a href="https://wa.me/5522996113251" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
@@ -315,6 +334,6 @@ if(dobeNoite())document.documentElement.classList.add('noite');
 </div>
 
 <script src="v2/packfiles.js?v=green4"></script>
-<script src="v2/app.js?v=noite1"></script>
+<script src="v2/app.js?v=dn1"></script>
 </body>
 </html>

@@ -93,6 +93,7 @@
     if(on === night || !window.dobeCapa) return;
     night = on;
     window.dobeCapa(on);
+    syncDayNight();
     if(on){
       var master = $('.hero-master', scene);
       if(!master) return;
@@ -106,14 +107,59 @@
     }
   }
   var clockTimer = 0;
+  var clockNight = night;   // o que o relógio dizia na última conferência
   function checkClock(){
     clearTimeout(clockTimer);
     var d = new Date();
-    if(window.dobeNoite) setNight(window.dobeNoite(d));
+    /* só age quando o relógio vira (20:00 / 05:00): assim a escolha manual
+       no botão dia/noite vale até a próxima virada */
+    if(window.dobeNoite){
+      var c = window.dobeNoite(d);
+      if(c !== clockNight){ clockNight = c; setNight(c); }
+    }
     clockTimer = setTimeout(checkClock, 60000 - (d.getSeconds()*1000 + d.getMilliseconds()) + 50);
   }
   checkClock();
   document.addEventListener('visibilitychange', function(){ if(!document.hidden) checkClock(); });
+
+  /* botão dia / noite: troca na hora, com a capa anterior sumindo em fade
+     por cima da nova (só depois que a nova chegou) */
+  var dnBtns = $$('[data-daynight]');
+  function syncDayNight(){
+    $$('[data-daynight]').forEach(function(b){ b.setAttribute('aria-checked', night ? 'true' : 'false'); });
+  }
+  function toggleNight(){
+    if(!window.dobeCapa || !baseImg) return;
+    var cover = $('.hero-master', scene);
+    if(cover){
+      cover.className = 'hero-fade';      // o original diurno vira a cobertura
+      masterState = 0;
+    } else {
+      cover = $('.hero-base', scene).cloneNode(true);
+      $$('source', cover).forEach(function(s){ s.remove(); });
+      var ci = $('img', cover);
+      ci.removeAttribute('srcset');
+      ci.src = baseImg.currentSrc || baseImg.src;
+      cover.classList.add('hero-fade');
+      cover.setAttribute('aria-hidden', 'true');
+      scene.insertBefore(cover, $('.fx', scene));
+    }
+    night = !night;
+    window.dobeCapa(night);
+    syncDayNight();
+    var done = false;
+    var fade = function(){
+      if(done) return; done = true;
+      requestAnimationFrame(function(){ cover.classList.add('out'); });
+      setTimeout(function(){ cover.remove(); }, 1000);
+      if(!night) loadMaster();
+    };
+    baseImg.addEventListener('load', fade, {once:true});
+    baseImg.addEventListener('error', fade, {once:true});
+    setTimeout(fade, 3000);
+  }
+  dnBtns.forEach(function(b){ b.addEventListener('click', toggleNight); });
+  syncDayNight();
 
   /* ====================================================================
      2. CAMADAS
