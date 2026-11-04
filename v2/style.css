@@ -230,9 +230,48 @@ html.noite{--lqip:url("data:image/jpeg;base64,C:/Program Files/Git/9j/4AAQSkZJRg
   background:#fff;box-shadow:0 0 10px rgba(255,255,255,.85);
   transition:transform .5s var(--spring), opacity .3s;
 }
-.hotspots.hovering .nav-ind::before{opacity:1;transform:scale(1);}
 .hotspots.hovering .nav-ind::after{transform:scaleX(1.7);}
-.hotspots.pressing .nav-ind::before{transform:scale(.95);transition-duration:.12s;}
+
+/* Menu (04/11/2026): a cápsula de vidro do hover agora é um elemento próprio (.nav-cap).
+   - Ao entrar no menu ela NASCE no item (sem viajar desde Home) e acende com um reflexo.
+   - Entre itens desliza numa curva sem repique (antes: --glide, que passava do ponto).
+   - Ao sair ela some ALI MESMO, desfocando; não atravessa o menu de volta.
+   - O traço fino (.nav-ind) volta para o item da página aberta sozinho, devagar e macio. */
+.nav-ind::before{display:none;}
+.nav-ind{transition:left .75s cubic-bezier(.65,0,.35,1);}
+.nav-ind::after{transition:transform .6s cubic-bezier(.22,1,.36,1), opacity .4s var(--e-soft);}
+
+.nav-cap{
+  position:absolute;z-index:2;pointer-events:none;
+  left:var(--cl,38.15%);top:5.85%;width:5.6%;height:3.4%;
+  border-radius:999px;overflow:hidden;
+  background:
+    radial-gradient(80px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.2),transparent 70%),
+    var(--glass-fill);
+  box-shadow:var(--glass-rim), 0 10px 28px rgba(10,30,60,.16);
+  backdrop-filter:brightness(1.1);-webkit-backdrop-filter:brightness(1.1);
+  opacity:0;filter:blur(3px);
+  transform:translate(-50%,-50%) scale(.86);
+  transition:left .48s cubic-bezier(.22,1,.36,1),
+             opacity .42s cubic-bezier(.22,1,.36,1),
+             transform .55s cubic-bezier(.22,1,.36,1),
+             filter .42s cubic-bezier(.22,1,.36,1);
+}
+.nav-cap.on{opacity:1;filter:blur(0);transform:translate(-50%,-50%) scale(1);}
+.nav-cap.jump{transition:opacity .42s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1), filter .42s cubic-bezier(.22,1,.36,1);}
+.hotspots.pressing .nav-cap.on{transform:translate(-50%,-50%) scale(.95);transition-duration:.12s;}
+/* reflexo que atravessa o vidro uma vez quando a cápsula acende ou troca de item */
+.nav-cap::after{
+  content:"";position:absolute;top:-40%;bottom:-40%;left:0;width:45%;
+  background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.32) 50%,transparent 100%);
+  transform:translateX(-140%) skewX(-18deg);opacity:0;
+}
+.nav-cap.sweep::after{animation:capSweep .85s cubic-bezier(.4,0,.2,1) .05s 1 both;}
+@keyframes capSweep{
+  0%  {transform:translateX(-140%) skewX(-18deg);opacity:0;}
+  15% {opacity:1;}
+  100%{transform:translateX(260%) skewX(-18deg);opacity:0;}
+}
 
 /* DOWNLOAD pintado: pulso suave + vidro que acende sob o cursor */
 .hs-download{left:49.95%;top:36.55%;width:11.6%;height:5.2%;}
@@ -346,7 +385,7 @@ img.hero-fade{display:block;width:100%;height:100%;object-fit:cover;object-posit
     top:calc(max(100vh,62.5vw) * -.0917);
     top:calc(max(100cqh,62.5cqw) * -.0917);
   }
-  .hs-nav,.nav-ind{top:12.1%;}
+  .hs-nav,.nav-ind,.nav-cap{top:12.1%;}
   .hs-label{visibility:visible;}
   .home.ready .hs-label{
     opacity:1;
@@ -802,6 +841,63 @@ img.hero-fade{display:block;width:100%;height:100%;object-fit:cover;object-posit
   .view[data-view="drumkit"] .browser{flex:1;min-height:0;display:flex;flex-direction:column;}
   .view[data-view="drumkit"] .tracks{flex:1 1 0;min-height:120px;max-height:none;}
   .view[data-view="drumkit"] .product-info{align-self:center;}
+}
+
+/* Plugins (04/11/2026): os dois plugins lado a lado, visíveis juntos sem rolar.
+   Cada produto vira uma coluna (imagem, nome, texto, especificações, compra); os tamanhos
+   acompanham a altura da janela. Abaixo de 1000px de largura continua um embaixo do outro. */
+@media (min-width:1000px) and (min-height:501px) and (min-aspect-ratio:3/5){
+  .view[data-view="plugins"]:not([hidden]){
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    column-gap:clamp(32px,3.6vw,60px);align-content:center;
+    max-width:1280px;
+  }
+  .view[data-view="plugins"] .view-head{grid-column:1 / -1;margin-bottom:clamp(8px,1.6vh,22px);}
+  .view[data-view="plugins"] .product{
+    display:flex;flex-direction:column;gap:0;
+    padding-top:clamp(12px,2vh,24px);
+  }
+  .view[data-view="plugins"] .product + .product{margin-top:0;}
+  .view[data-view="plugins"] .product-media{
+    align-self:flex-start;height:clamp(110px,21vh,250px);aspect-ratio:700 / 382;width:auto;
+    margin-bottom:clamp(10px,1.8vh,20px);
+  }
+  .view[data-view="plugins"] .product-media img{width:100%;height:100%;object-fit:cover;}
+  .view[data-view="plugins"] .product-tag{margin-bottom:4px;}
+  .view[data-view="plugins"] .product-name{font-size:clamp(24px,3.4vh,36px);margin-bottom:clamp(4px,.9vh,10px);}
+  .view[data-view="plugins"] .product-desc{font-size:clamp(12.5px,1.45vh,14px);line-height:1.6;}
+  .view[data-view="plugins"] .product-note{margin-top:clamp(6px,1vh,10px);font-size:clamp(11.5px,1.3vh,12.5px);line-height:1.55;}
+  .view[data-view="plugins"] .specs{margin-top:clamp(8px,1.4vh,16px);column-gap:20px;}
+  .view[data-view="plugins"] .specs div{padding:clamp(4px,.75vh,8px) 0;}
+  .view[data-view="plugins"] .specs dt{font-size:9px;padding:0 0 2px;}
+  .view[data-view="plugins"] .specs dd{font-size:clamp(12px,1.35vh,13px);line-height:1.4;}
+  .view[data-view="plugins"] .buy{margin-top:clamp(10px,1.6vh,18px);gap:14px;}
+  .view[data-view="plugins"] .price{font-size:clamp(26px,3.7vh,40px);}
+  .view[data-view="plugins"] .price small{font-size:11.5px;margin-top:5px;}
+  .view[data-view="plugins"] .price-was{margin-bottom:4px;}
+  .view[data-view="plugins"] .pill{min-height:clamp(40px,5vh,48px);padding:0 28px;}
+  .view[data-view="plugins"] .pay-note{margin-top:clamp(6px,1vh,12px);font-size:11.5px;}
+}
+/* janelas baixas (notebook 1366x657, 1536x730): imagem pequena ao lado do nome,
+   especificações em 3 colunas e sem a linha repetida sobre o pagamento — tudo cabe sem rolar */
+@media (min-width:1000px) and (min-height:501px) and (max-height:760px) and (min-aspect-ratio:3/5){
+  .view[data-view="plugins"] .view-title{font-size:clamp(34px,6vh,46px);}
+  .view[data-view="plugins"] .product{
+    display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;align-items:end;
+  }
+  .view[data-view="plugins"] .product-info{display:contents;}
+  .view[data-view="plugins"] .product-media{grid-column:1;grid-row:1 / span 2;height:clamp(64px,12vh,92px);margin-bottom:0;align-self:center;}
+  .view[data-view="plugins"] .product-tag{grid-column:2;grid-row:1;align-self:end;}
+  .view[data-view="plugins"] .product-name{grid-column:2;grid-row:2;align-self:start;margin-bottom:0;}
+  .view[data-view="plugins"] .product-desc,
+  .view[data-view="plugins"] .product-note,
+  .view[data-view="plugins"] .specs,
+  .view[data-view="plugins"] .buy{grid-column:1 / -1;}
+  .view[data-view="plugins"] .product-desc{margin-top:8px;font-size:12.5px;line-height:1.5;}
+  .view[data-view="plugins"] .product-note{font-size:11.5px;line-height:1.45;}
+  .view[data-view="plugins"] .specs{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:14px;}
+  .view[data-view="plugins"] .specs dd{font-size:12px;}
+  .view[data-view="plugins"] .pay-note{display:none;}
 }
 
 /* notebooks e janelas baixas: um pouco mais compacto, sem apertar */

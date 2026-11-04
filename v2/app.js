@@ -312,17 +312,41 @@
     if(!nav || !ind) return noop;
 
     var restOn = $('.hs-home');
+    var cap = $('.nav-cap'), capOn = false, capTimer = 0;
+    function pct(el){ return (el.offsetLeft / scene.offsetWidth * 100).toFixed(3) + '%'; }
     function to(el){
-      ind.style.setProperty('--il', (el.offsetLeft / scene.offsetWidth * 100).toFixed(3) + '%');
+      ind.style.setProperty('--il', pct(el));
+    }
+    /* cápsula do hover: nasce no item quando chega de fora; desliza entre itens; some no lugar */
+    function capTo(el){
+      if(!cap) return;
+      clearTimeout(capTimer);
+      if(!capOn){
+        cap.classList.add('jump');                 // aparece já no item, sem atravessar o menu
+        cap.style.setProperty('--cl', pct(el));
+        void cap.offsetWidth;
+        cap.classList.remove('jump');
+      } else {
+        cap.style.setProperty('--cl', pct(el));
+      }
+      cap.classList.add('on');
+      cap.classList.remove('sweep'); void cap.offsetWidth; cap.classList.add('sweep');
+      capOn = true;
+    }
+    function capOff(){
+      if(!cap) return;
+      cap.classList.remove('on');
+      /* só depois de apagar ela pode "pular" na próxima entrada */
+      capTimer = setTimeout(function(){ capOn = false; }, 420);
     }
     items.forEach(function(el){
-      el.addEventListener('pointerenter', function(){ nav.classList.add('hovering'); to(el); });
-      el.addEventListener('focus', function(){ nav.classList.add('hovering'); to(el); });
-      el.addEventListener('blur', function(){ nav.classList.remove('hovering'); to(restOn); });
+      el.addEventListener('pointerenter', function(){ nav.classList.add('hovering'); capTo(el); to(el); });
+      el.addEventListener('focus', function(){ nav.classList.add('hovering'); capTo(el); to(el); });
+      el.addEventListener('blur', function(){ nav.classList.remove('hovering'); capOff(); to(restOn); });
       el.addEventListener('pointerdown', function(){ nav.classList.add('pressing'); });
     });
     nav.addEventListener('pointerleave', function(){
-      nav.classList.remove('hovering'); to(restOn);
+      nav.classList.remove('hovering'); capOff(); to(restOn);
     });
     window.addEventListener('pointerup', function(){ nav.classList.remove('pressing'); });
 
@@ -331,6 +355,7 @@
       rest:function(name){
         restOn = name === 'plugins' ? $('.hs-plugins') : name === 'drumkit' ? $('.hs-kit') : $('.hs-home');
         nav.classList.remove('hovering');
+        capOff();
         to(restOn);
       }
     };
@@ -416,7 +441,7 @@
 
     var navHs = t.closest('.hs-nav');
     if(navHs){
-      var ind = $('.nav-ind'), ir = navHs.getBoundingClientRect();
+      var ind = $('.nav-cap') || $('.nav-ind'), ir = navHs.getBoundingClientRect();   // brilho que segue o cursor no vidro
       ind.style.setProperty('--mx', (e.clientX - ir.left).toFixed(0) + 'px');
       ind.style.setProperty('--my', (e.clientY - ir.top).toFixed(0) + 'px');
     }
@@ -561,7 +586,14 @@
         if(!io){ els.forEach(function(el){ el.classList.add('in'); }); return; }
         /* dois quadros: o estado inicial precisa ser pintado antes de revelar */
         requestAnimationFrame(function(){ requestAnimationFrame(function(){
-          els.forEach(function(el){ io.observe(el); });
+          /* o que já está na tela revela na hora (mesma cascata pelo --i); a margem de -6%
+             do observador valia só para o que vem rolando. Sem isto, com os dois plugins
+             lado a lado (sem rolagem), a última linha ficava invisível para sempre. */
+          var vh = window.innerHeight;
+          els.forEach(function(el){
+            if(el.getBoundingClientRect().top < vh) el.classList.add('in');
+            else io.observe(el);
+          });
           mediaParallax();
         }); });
       }
