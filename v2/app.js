@@ -572,7 +572,7 @@
         entries.forEach(function(en){
           if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
         });
-      }, {root:scroller, rootMargin:'0px 0px -6% 0px', threshold:.08});
+      }, {root:scroller, rootMargin:'0px', threshold:0});   // qualquer parte na tela já revela
     }
     return {
       prepare:function(name){
@@ -586,14 +586,19 @@
         if(!io){ els.forEach(function(el){ el.classList.add('in'); }); return; }
         /* dois quadros: o estado inicial precisa ser pintado antes de revelar */
         requestAnimationFrame(function(){ requestAnimationFrame(function(){
-          /* o que já está na tela revela na hora (mesma cascata pelo --i); a margem de -6%
-             do observador valia só para o que vem rolando. Sem isto, com os dois plugins
-             lado a lado (sem rolagem), a última linha ficava invisível para sempre. */
-          var vh = window.innerHeight;
-          els.forEach(function(el){
-            if(el.getBoundingClientRect().top < vh) el.classList.add('in');
-            else io.observe(el);
-          });
+          /* O observador acompanha a camada enquanto ela abre e revela o que encostar na tela.
+             Rede de segurança: terminada a abertura, tudo o que estiver visível aparece.
+             (Com os dois plugins lado a lado não há rolagem; antes, o preço e o botão do
+             DOBÊ MIX — mais baixos que os do DRUMS — podiam ficar invisíveis para sempre.) */
+          els.forEach(function(el){ io.observe(el); });
+          setTimeout(function(){
+            var vh = window.innerHeight;
+            els.forEach(function(el){
+              if(!el.classList.contains('in') && el.getBoundingClientRect().top < vh){
+                el.classList.add('in'); io.unobserve(el);
+              }
+            });
+          }, 1100);
           mediaParallax();
         }); });
       }
